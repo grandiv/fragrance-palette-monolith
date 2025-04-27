@@ -1,0 +1,41 @@
+version: "3.8"
+services:
+  app:
+    build: .
+    ports:
+      - "3000:3000"
+    env_file: .env
+    depends_on:
+      # - db
+      # - redis
+      - tgi
+  # db:
+  #   image: postgres:15
+  #   environment:
+  #     POSTGRES_USER: postgres
+  #     POSTGRES_PASSWORD: postgres
+  #     POSTGRES_DB: fragrances
+  #   volumes:
+  #     - db_data:/var/lib/postgresql/data
+  # redis:
+  #   image: redis:7-alpine
+  #   ports:
+  #     - "6379:6379"
+  tgi:
+    image: ghcr.io/huggingface/text-generation-inference:latest
+    runtime: nvidia
+    ports:
+      - "8080:80"
+    environment:
+      - HF_TOKEN=${HF_TOKEN}
+      - MODEL_ID=meta-llama/Llama-3.2-1B
+      - MAX_NEW_TOKENS=256
+      - DEVICE=gpu
+      - QUANTIZE=bitsandbytes-nf4
+      - CUDA_GRAPHS=0
+      - DISABLE_CUSTOM_KERNELS=true
+      - SHARDED=false
+      - NUM_SHARD=1
+
+volumes:
+  db_data:
