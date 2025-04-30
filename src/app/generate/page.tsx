@@ -2,7 +2,6 @@
 
 import { Button } from "@/components/ui/button";
 import { Card } from "@/components/ui/card";
-import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { useRouter } from "next/navigation";
 import { useState } from "react";
@@ -32,7 +31,7 @@ export default function Generate() {
         throw new Error(errorData.error || "Failed to generate formula");
       }
 
-      const data = await res.json();
+      await res.json();
       router.push(`/my-formulas`);
     } catch (err) {
       setError(err instanceof Error ? err.message : "An error occurred");
@@ -50,8 +49,8 @@ export default function Generate() {
           <div className="space-y-2">
             <Label htmlFor="description">Describe your desired fragrance</Label>
             <p className="text-sm text-gray-500 mb-2">
-              Describe the kind of scent you want (e.g., "Fresh citrus with
-              woody base" or "Sweet floral with vanilla notes")
+              Describe the kind of scent you want (e.g., &quot;Fresh citrus with
+              woody base&quot; or &quot;Sweet floral with vanilla notes&quot;)
             </p>
             <textarea
               id="description"
@@ -91,7 +90,7 @@ export default function Generate() {
           </li>
           <li>The AI will suggest appropriate top, middle, and base notes</li>
           <li>
-            You'll get simple mixing instructions to create your fragrance
+            You&apos;ll get simple mixing instructions to create your fragrance
           </li>
         </ul>
       </div>

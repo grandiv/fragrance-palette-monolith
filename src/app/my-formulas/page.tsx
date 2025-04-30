@@ -77,7 +77,7 @@ export default function MyFormulas() {
       {formulas.length === 0 ? (
         <div className="text-center py-10">
           <p className="text-gray-500 mb-4">
-            You haven't created any formulas yet.
+            You haven&apos;t created any formulas yet.
           </p>
           <button
             onClick={() => router.push("/generate")}
