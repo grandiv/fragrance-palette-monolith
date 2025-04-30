@@ -1,54 +1,40 @@
 datasource db {
   provider = "postgresql"
   url      = env("DATABASE_URL_LOCAL")
-  // directUrl =  env("DIRECT_URL")
 }
 
 generator client {
   provider = "prisma-client-js"
-  // binaryTargets = ["native", "linux-musl-openssl-3.0.x"]
 }
+
 
 model User {
   id       String   @id @default(cuid())
   email    String   @unique
   name     String?
+  password String?
   formulas Formula[]
-  feedback Feedback[]
 }
 
-model Ingredient {
-  id       String      @id @default(cuid())
-  name     String
-  category String
-  components Component[]
+model FragranceFamily {
+  id          String    @id @default(cuid())
+  name        String    @unique // e.g. "Citrus", "Floral", "Woody", etc.
+  description String
+  ingredients String[]  // Common ingredients for this family
+  formulas    Formula[]
 }
 
 model Formula {
-  id          String      @id @default(cuid())
-  userId      String
-  description String
-  createdAt   DateTime    @default(now())
-  components  Component[]
-  feedback    Feedback[]
-  user        User        @relation(fields: [userId], references: [id])
-}
-
-model Component {
-  id           String   @id @default(cuid())
-  formulaId    String
-  ingredientId String
-  concentration Float
-  formula      Formula    @relation(fields: [formulaId], references: [id])
-  ingredient   Ingredient @relation(fields: [ingredientId], references: [id])
-}
-
-model Feedback {
-  id        String   @id @default(cuid())
-  userId    String
-  formulaId String
-  rating    Int
-  comment   String?
-  user      User     @relation(fields: [userId], references: [id])
-  formula   Formula  @relation(fields: [formulaId], references: [id])
+  id              String         @id @default(cuid())
+  userId          String
+  fragranceFamilyId String
+  name            String
+  description     String
+  topNote         String
+  middleNote      String
+  baseNote        String
+  mixing          String        // Simple mixing instructions
+  createdAt       DateTime       @default(now())
+  user            User           @relation(fields: [userId], references: [id])
+  fragranceFamily FragranceFamily @relation(fields: [fragranceFamilyId], references: [id])
 }
