@@ -1,6 +1,13 @@
 import { PrismaClient } from "@prisma/client";
 
-const prisma = new PrismaClient();
+// Create a Prisma client with direct URL configuration for Docker environment
+const prisma = new PrismaClient({
+  datasources: {
+    db: {
+      url: "postgresql://postgres:postgres@db:5432/fragrances",
+    },
+  },
+});
 
 async function main() {
   // Clear existing data
