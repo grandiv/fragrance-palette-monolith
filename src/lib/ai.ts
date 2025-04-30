@@ -10,7 +10,12 @@ export async function callLLM(prompt: string): Promise<Formula> {
     headers: { "Content-Type": "application/json" },
     body: JSON.stringify({
       inputs: `Generate fragrance formula for: ${prompt}`,
-      parameters: { max_new_tokens: 128 },
+      parameters: {
+        max_new_tokens: 256,
+        temperature: 0.7,
+        top_p: 0.3,
+        repetition_penalty: 1.3,
+      },
     }),
   });
   if (!res.ok) throw new Error(`LLM error: ${res.status}`);
